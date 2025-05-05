@@ -1,0 +1,29 @@
+### 🔍 Obtener todas las cajeras
+GET http://localhost:5259/api/cajera
+Accept: application/json
+
+###
+
+### 🔍 Obtener una cajera por ID
+GET http://localhost:5259/api/cajera/1
+Accept: application/json
+
+###
+GET http://localhost:5259/api/cajera/por-caja/1
+Accept: application/json
+
+
+### ➕ Crear una nueva cajera
+POST http://localhost:5259/api/cajera
+Content-Type: application/json
+
+{
+  "caja": 2,
+  "tipoUsuario": "supervisor"
+}
+
+###
+
+### ❌ Eliminar una cajera por ID
+DELETE http://localhost:5259/api/cajera/1
+Accept: application/json

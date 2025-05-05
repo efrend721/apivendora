@@ -1,0 +1,6 @@
+@apivendora_HostAddress = http://localhost:5259
+
+GET {{apivendora_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

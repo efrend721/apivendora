@@ -1,0 +1,26 @@
+### 🔍 Obtener todas las barras
+GET http://localhost:5259/api/barras
+Accept: application/json
+
+###
+
+### 🔍 Obtener una barra por su código
+GET http://localhost:5259/api/barras/100001515
+Accept: application/json
+
+###
+
+### ➕ Crear una nueva barra
+POST http://localhost:5259/api/barras
+Content-Type: application/json
+
+{
+  "cdgoBarra": "100001516",
+  "cdgoProducto": 1000016
+}
+
+###
+
+### ❌ Eliminar una barra por su código
+DELETE http://localhost:5259/api/barras/100001516
+Accept: application/json
