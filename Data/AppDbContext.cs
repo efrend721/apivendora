@@ -18,6 +18,8 @@ namespace apivendora.Data
         public DbSet<Cajera> Cajera { get; set; }
         public DbSet<Consulta> Consulta { get; set; }
         public DbSet<Defactura> Defactura { get; set; }
+        public DbSet<Factura> Factura { get; set; }
+
 
     }
 

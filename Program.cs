@@ -15,6 +15,8 @@ builder.Services.AddScoped<BarrasService>();
 builder.Services.AddScoped<CajeraService>();
 builder.Services.AddScoped<ConsultaService>();
 builder.Services.AddScoped<DefacturaService>();
+builder.Services.AddScoped<FacturaService>();
+
 
 // Agregar controladores
 /*builder.Services.AddCors(options =>
