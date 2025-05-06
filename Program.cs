@@ -17,6 +17,11 @@ builder.Services.AddScoped<ConsultaService>();
 builder.Services.AddScoped<DefacturaService>();
 builder.Services.AddScoped<FacturaService>();
 builder.Services.AddScoped<FormapagoService>();
+builder.Services.AddScoped<ImpuestoService>();
+builder.Services.AddScoped<LaboratorioService>();
+builder.Services.AddScoped<MformapagoService>();
+builder.Services.AddScoped<MtransaccionService>();
+builder.Services.AddScoped<ProductoService>();
 
 
 // Agregar controladores

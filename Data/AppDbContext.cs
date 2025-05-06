@@ -12,6 +12,7 @@ namespace apivendora.Data
         {
             modelBuilder.Entity<Defactura>().HasNoKey();
             modelBuilder.Entity<Formapago>().HasNoKey();
+            modelBuilder.Entity<Impuesto>().HasNoKey();
         } 
 
         public DbSet<Usuario> Usuarios { get; set; }
@@ -21,7 +22,11 @@ namespace apivendora.Data
         public DbSet<Defactura> Defactura { get; set; }
         public DbSet<Factura> Factura { get; set; }
         public DbSet<Formapago> Formapago { get; set; }
-
+        public DbSet<Impuesto> Impuesto { get; set; }
+        public DbSet<Laboratorio> Laboratorio { get; set; }
+        public DbSet<Mformapago> Mformapago { get; set; }
+        public DbSet<Mtransaccion> Mtransaccion { get; set; }
+        public DbSet<Producto> Producto { get; set; }
     }
 
 
