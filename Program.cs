@@ -16,10 +16,11 @@ builder.Services.AddScoped<CajeraService>();
 builder.Services.AddScoped<ConsultaService>();
 builder.Services.AddScoped<DefacturaService>();
 builder.Services.AddScoped<FacturaService>();
+builder.Services.AddScoped<FormapagoService>();
 
 
 // Agregar controladores
-/*builder.Services.AddCors(options =>
+builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
         builder =>
@@ -28,7 +29,7 @@ builder.Services.AddScoped<FacturaService>();
                    .AllowAnyMethod()
                    .AllowAnyHeader();
         });
-});*/
+});
 
 
 builder.Services.AddControllers()
