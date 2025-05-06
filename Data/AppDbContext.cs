@@ -30,6 +30,8 @@ namespace apivendora.Data
         public DbSet<Producto> Producto { get; set; }
         public DbSet<Proveedor> Proveedor { get; set; }
         public DbSet<Recogida> Recogida { get; set; }
+        public DbSet<Saldos> Saldos { get; set; }
+        public DbSet<Tinventario> Tinventario { get; set; }
     }
 
 
