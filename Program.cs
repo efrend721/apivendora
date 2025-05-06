@@ -22,6 +22,8 @@ builder.Services.AddScoped<LaboratorioService>();
 builder.Services.AddScoped<MformapagoService>();
 builder.Services.AddScoped<MtransaccionService>();
 builder.Services.AddScoped<ProductoService>();
+builder.Services.AddScoped<ProveedorService>();
+builder.Services.AddScoped<RecogidaService>();
 
 
 // Agregar controladores
