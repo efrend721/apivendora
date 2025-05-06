@@ -7,10 +7,14 @@ namespace apivendora.Models
     public class Barras
     {
         [Key]
+        [Required(ErrorMessage = "El código de barras es obligatorio.")]
+        [StringLength(24, ErrorMessage = "El código de barras no debe exceder los 24 caracteres.")]
         [Column("cdgo_barra")]
-        public string? CdgoBarra { get; set; }
+        public string? CodigoBarras { get; set; }
 
+        [Required(ErrorMessage = "El código del producto es obligatorio.")]
+        [Range(1, int.MaxValue, ErrorMessage = "El código del producto debe ser mayor que cero.")]
         [Column("cdgo_producto")]
-        public int CdgoProducto { get; set; }
+        public int CodigoProducto { get; set; }
     }
 }
