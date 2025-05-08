@@ -160,3 +160,4 @@
 /var/www/apivendora/obj/Debug/net8.0/apivendora.pdb
 /var/www/apivendora/obj/Debug/net8.0/apivendora.genruntimeconfig.cache
 /var/www/apivendora/obj/Debug/net8.0/ref/apivendora.dll
+/var/www/apivendora/obj/Debug/net8.0/apivendora.sourcelink.json

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using apivendora.Models;
 using apivendora.Services;
+using apivendora.Helpers;
 
 namespace apivendora.Controllers
 {
@@ -26,8 +27,11 @@ namespace apivendora.Controllers
         public async Task<ActionResult<IEnumerable<Formapago>>> GetByFactura(int idFactura)
         {
             var result = await _formapagoService.GetByFacturaAsync(idFactura);
-            if (result == null || result.Count == 0)
-                return NotFound();
+
+            if (result == null || !result.Any())
+            {
+                return NotFound(ApiProblemHelper.NotFound(HttpContext, $"No se encontraron formas de pago para la factura con ID {idFactura}."));
+            }
 
             return Ok(result);
         }
@@ -35,8 +39,15 @@ namespace apivendora.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(Formapago formapago)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ApiProblemHelper.BadRequestWithModelState(HttpContext, ModelState));
+            }
+
             await _formapagoService.AddAsync(formapago);
             return StatusCode(201, formapago);
         }
+
+        
     }
 }

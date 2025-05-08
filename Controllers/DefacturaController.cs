@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using apivendora.Models;
 using apivendora.Services;
+using apivendora.Helpers;
 
 namespace apivendora.Controllers
 {
@@ -26,15 +27,27 @@ namespace apivendora.Controllers
         public async Task<ActionResult<IEnumerable<Defactura>>> GetByFactura(int idFactura)
         {
             var result = await _defacturaService.GetByFacturaAsync(idFactura);
-            if (result == null || result.Count == 0) return NotFound();
+
+            if (result == null || !result.Any())
+            {
+                return NotFound(ApiProblemHelper.NotFound(HttpContext, $"No se encontraron registros de detalle para la factura con ID {idFactura}."));
+            }
+
             return Ok(result);
         }
 
         [HttpPost]
         public async Task<ActionResult> Create(Defactura defactura)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ApiProblemHelper.BadRequestWithModelState(HttpContext, ModelState));
+            }
+
             await _defacturaService.AddAsync(defactura);
             return StatusCode(201, defactura);
         }
+
+        
     }
 }

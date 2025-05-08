@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using apivendora.Models;
 using apivendora.Services;
+using apivendora.Helpers;
 
 namespace apivendora.Controllers
 {
@@ -26,22 +27,37 @@ namespace apivendora.Controllers
         public async Task<ActionResult<Barras>> GetById(string cdgoBarra)
         {
             var result = await _barrasService.GetByIdAsync(cdgoBarra);
-            if (result == null) return NotFound();
+
+            if (result == null)
+            {
+                return NotFound(ApiProblemHelper.NotFound(HttpContext, $"No se encontró el recurso con cdgoBarra: {cdgoBarra}."));
+            }
+
             return Ok(result);
         }
 
         [HttpPost]
         public async Task<ActionResult> Create(Barras barra)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ApiProblemHelper.BadRequestWithModelState(HttpContext, ModelState));
+            }
+
             await _barrasService.AddAsync(barra);
-            return StatusCode(201, barra); // Created
+            return StatusCode(201, barra);
         }
 
         [HttpDelete("{cdgoBarra}")]
         public async Task<ActionResult> Delete(string cdgoBarra)
         {
             var deleted = await _barrasService.DeleteAsync(cdgoBarra);
-            if (!deleted) return NotFound();
+
+            if (!deleted)
+            {
+                return NotFound(ApiProblemHelper.NotFound(HttpContext, $"No se pudo eliminar. No se encontró el recurso con cdgoBarra: {cdgoBarra}."));
+            }
+
             return NoContent();
         }
     }

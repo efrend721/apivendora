@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using apivendora.Models;
 using apivendora.Services;
+using apivendora.Helpers;
 
 namespace apivendora.Controllers
 {
@@ -26,13 +27,23 @@ namespace apivendora.Controllers
         public async Task<ActionResult<Recogida>> GetById(int id)
         {
             var result = await _recogidaService.GetByIdAsync(id);
-            if (result == null) return NotFound();
+
+            if (result == null)
+            {
+                return NotFound(ApiProblemHelper.NotFound(HttpContext, $"No se encontró la recogida con ID {id}."));
+            }
+
             return Ok(result);
         }
 
         [HttpPost]
         public async Task<ActionResult> Create(Recogida recogida)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ApiProblemHelper.BadRequestWithModelState(HttpContext, ModelState));
+            }
+
             await _recogidaService.AddAsync(recogida);
             return StatusCode(201, recogida);
         }
@@ -40,8 +51,20 @@ namespace apivendora.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
+            var exists = await _recogidaService.GetByIdAsync(id);
+
+            if (exists == null)
+            {
+                return NotFound(ApiProblemHelper.NotFound(HttpContext, $"No se encontró la recogida con ID {id} para eliminar."));
+            }
+
             var deleted = await _recogidaService.DeleteAsync(id);
-            if (!deleted) return NotFound();
+
+            if (!deleted)
+            {
+                return BadRequest(ApiProblemHelper.BadRequest(HttpContext, $"No se pudo eliminar la recogida con ID {id}."));
+            }
+
             return NoContent();
         }
     }

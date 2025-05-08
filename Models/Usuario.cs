@@ -12,8 +12,8 @@ namespace apivendora.Models
 
         [Required(ErrorMessage = "El nombre de usuario es obligatorio.")]
         [StringLength(20, ErrorMessage = "El nombre de usuario no debe exceder 20 caracteres.")]
-        [Column("nombre_usuario")]
-        public string? NombreUsuario { get; set; }
+        [Column("tipo_usuario")]
+        public string? Tipo_ususario { get; set; }
 
         [Required(ErrorMessage = "La contraseña es obligatoria.")]
         [StringLength(12, ErrorMessage = "La contraseña no debe exceder 12 caracteres.")]

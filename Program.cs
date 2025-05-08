@@ -51,9 +51,8 @@ builder.Services.AddControllers()
 
 var app = builder.Build();
 
-
-
+app.UseMiddleware<apivendora.Middleware.ErrorHandlingMiddleware>();
+app.UseCors("AllowAllOrigins");
 app.UseAuthorization();
 app.MapControllers();
-
 app.Run();

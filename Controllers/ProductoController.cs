@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using apivendora.Models;
 using apivendora.Services;
+using apivendora.Helpers;
 
 namespace apivendora.Controllers
 {
@@ -22,26 +23,48 @@ namespace apivendora.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Producto>> GetById(int id)
+        [HttpGet("{cdgo}")]
+        public async Task<ActionResult<Producto>> GetById(int cdgo)
         {
-            var result = await _productoService.GetByIdAsync(id);
-            if (result == null) return NotFound();
+            var result = await _productoService.GetByIdAsync(cdgo);
+
+            if (result == null)
+            {
+                return NotFound(ApiProblemHelper.NotFound(HttpContext, $"No se encontró el producto con código {cdgo}."));
+            }
+
             return Ok(result);
         }
 
         [HttpPost]
         public async Task<ActionResult> Create(Producto producto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ApiProblemHelper.BadRequestWithModelState(HttpContext, ModelState));
+            }
+
             await _productoService.AddAsync(producto);
             return StatusCode(201, producto);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(int id)
+        [HttpDelete("{cdgo}")]
+        public async Task<ActionResult> Delete(int cdgo)
         {
-            var deleted = await _productoService.DeleteAsync(id);
-            if (!deleted) return NotFound();
+            var exists = await _productoService.GetByIdAsync(cdgo);
+
+            if (exists == null)
+            {
+                return NotFound(ApiProblemHelper.NotFound(HttpContext, $"No se encontró el producto con código {cdgo} para eliminar."));
+            }
+
+            var deleted = await _productoService.DeleteAsync(cdgo);
+
+            if (!deleted)
+            {
+                return BadRequest(ApiProblemHelper.BadRequest(HttpContext, $"No se pudo eliminar el producto con código {cdgo}."));
+            }
+
             return NoContent();
         }
     }

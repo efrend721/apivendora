@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using apivendora.Models;
 using apivendora.Services;
+using apivendora.Helpers;
 
 namespace apivendora.Controllers
 {
@@ -26,23 +27,27 @@ namespace apivendora.Controllers
         public async Task<ActionResult<Factura>> GetById(int idFactura)
         {
             var result = await _facturaService.GetByIdAsync(idFactura);
-            if (result == null) return NotFound();
+
+            if (result == null)
+            {
+                return NotFound(ApiProblemHelper.NotFound(HttpContext, $"No se encontró la factura con ID {idFactura}."));
+            }
+
             return Ok(result);
         }
 
         [HttpPost]
         public async Task<ActionResult> Create(Factura factura)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ApiProblemHelper.BadRequestWithModelState(HttpContext, ModelState));
+            }
+
             await _facturaService.AddAsync(factura);
             return StatusCode(201, factura);
         }
 
-        [HttpDelete("{idFactura}")]
-        public async Task<ActionResult> Delete(int idFactura)
-        {
-            var deleted = await _facturaService.DeleteAsync(idFactura);
-            if (!deleted) return NotFound();
-            return NoContent();
-        }
+        
     }
 }

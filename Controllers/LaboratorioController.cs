@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using apivendora.Models;
 using apivendora.Services;
+using apivendora.Helpers;
 
 namespace apivendora.Controllers
 {
@@ -26,13 +27,23 @@ namespace apivendora.Controllers
         public async Task<ActionResult<Laboratorio>> GetById(int id)
         {
             var result = await _laboratorioService.GetByIdAsync(id);
-            if (result == null) return NotFound();
+
+            if (result == null)
+            {
+                return NotFound(ApiProblemHelper.NotFound(HttpContext, $"No se encontró el laboratorio con código {id}."));
+            }
+
             return Ok(result);
         }
 
         [HttpPost]
         public async Task<ActionResult> Create(Laboratorio laboratorio)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ApiProblemHelper.BadRequestWithModelState(HttpContext, ModelState));
+            }
+
             await _laboratorioService.AddAsync(laboratorio);
             return StatusCode(201, laboratorio);
         }
@@ -40,8 +51,20 @@ namespace apivendora.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
+            var exists = await _laboratorioService.GetByIdAsync(id);
+
+            if (exists == null)
+            {
+                return NotFound(ApiProblemHelper.NotFound(HttpContext, $"No se encontró el laboratorio con código {id} para eliminar."));
+            }
+
             var deleted = await _laboratorioService.DeleteAsync(id);
-            if (!deleted) return NotFound();
+
+            if (!deleted)
+            {
+                return BadRequest(ApiProblemHelper.BadRequest(HttpContext, $"No se pudo eliminar el laboratorio con código {id}."));
+            }
+
             return NoContent();
         }
     }
