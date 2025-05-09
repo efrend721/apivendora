@@ -5,7 +5,7 @@ using apivendora.Services.Ventas;
 using apivendora.Services.Productos;
 using apivendora.Services.Usuarios;
 using apivendora.Services.Finanzas;
-
+using apivendora.Repositories.Productos;
 
 
 
@@ -33,6 +33,9 @@ builder.Services.AddScoped<ProveedorService>();
 builder.Services.AddScoped<RecogidaService>();
 builder.Services.AddScoped<SaldosService>();
 builder.Services.AddScoped<TinventarioService>();
+builder.Services.AddScoped<ILaboratorioRepository, LaboratorioRepository>();
+builder.Services.AddScoped<IBarrasRepository, BarrasRepository>();
+builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 
 
 // Agregar controladores

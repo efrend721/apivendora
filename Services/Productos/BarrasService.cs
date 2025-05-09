@@ -1,44 +1,40 @@
 using apivendora.Models.Productos;
-using apivendora.Data;
-using Microsoft.EntityFrameworkCore;
+using apivendora.Repositories.Productos;
 
 namespace apivendora.Services.Productos
 {
     public class BarrasService
     {
-        private readonly AppDbContext _context;
+        private readonly IBarrasRepository _barrasRepository;
 
-        public BarrasService(AppDbContext context)
+        public BarrasService(IBarrasRepository barrasRepository)
         {
-            _context = context;
+            _barrasRepository = barrasRepository;
         }
 
-        public async Task<List<Barras>> GetAllAsync()
+        public Task<List<Barras>> GetAllAsync()
         {
-            return await _context.Barras.AsNoTracking().ToListAsync();
+            return _barrasRepository.GetAllAsync();
         }
 
-        public async Task<Barras?> GetByIdAsync(string cdgoBarra)
+        public Task<Barras?> GetByIdAsync(string cdgoBarra)
         {
-            return await _context.Barras
-                .AsNoTracking()
-                .FirstOrDefaultAsync(b => b.CdgoBarra == cdgoBarra);
+            return _barrasRepository.GetByIdAsync(cdgoBarra);
         }
 
-        public async Task AddAsync(Barras barra)
+        public Task<List<Barras>> GetByProductoAsync(int cdgoProducto)
         {
-            _context.Barras.Add(barra);
-            await _context.SaveChangesAsync();
+            return _barrasRepository.GetByProductoAsync(cdgoProducto);
         }
 
-        public async Task<bool> DeleteAsync(string cdgoBarra)
+        public Task AddAsync(Barras barra)
         {
-            var barra = await _context.Barras.FindAsync(cdgoBarra);
-            if (barra == null) return false;
+            return _barrasRepository.AddAsync(barra);
+        }
 
-            _context.Barras.Remove(barra);
-            await _context.SaveChangesAsync();
-            return true;
+        public Task<bool> DeleteAsync(string cdgoBarra)
+        {
+            return _barrasRepository.DeleteAsync(cdgoBarra);
         }
     }
 }

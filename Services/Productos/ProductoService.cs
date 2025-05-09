@@ -1,42 +1,40 @@
-using apivendora.Data;
 using apivendora.Models.Productos;
-using Microsoft.EntityFrameworkCore;
+using apivendora.Repositories.Productos;
 
 namespace apivendora.Services.Productos
 {
     public class ProductoService
     {
-        private readonly AppDbContext _context;
+        private readonly IProductoRepository _productoRepository;
 
-        public ProductoService(AppDbContext context)
+        public ProductoService(IProductoRepository productoRepository)
         {
-            _context = context;
+            _productoRepository = productoRepository;
         }
 
-        public async Task<List<Producto>> GetAllAsync()
+        public Task<List<Producto>> GetAllAsync()
         {
-            return await _context.Productos.AsNoTracking().ToListAsync();
+            return _productoRepository.GetAllAsync();
         }
 
-        public async Task<Producto?> GetByIdAsync(int id)
+        public Task<Producto?> GetByIdAsync(int id)
         {
-            return await _context.Productos.FindAsync(id);
+            return _productoRepository.GetByIdAsync(id);
         }
 
-        public async Task AddAsync(Producto producto)
+        public Task AddAsync(Producto producto)
         {
-            _context.Productos.Add(producto);
-            await _context.SaveChangesAsync();
+            return _productoRepository.AddAsync(producto);
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public Task<bool> DeleteAsync(int id)
         {
-            var producto = await _context.Productos.FindAsync(id);
-            if (producto == null) return false;
+            return _productoRepository.DeleteAsync(id);
+        }
 
-            _context.Productos.Remove(producto);
-            await _context.SaveChangesAsync();
-            return true;
+        public Task<bool> ExistsAsync(int id)
+        {
+            return _productoRepository.ExistsAsync(id);
         }
     }
 }

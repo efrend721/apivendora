@@ -1,42 +1,40 @@
-using apivendora.Data;
 using apivendora.Models.Productos;
-using Microsoft.EntityFrameworkCore;
+using apivendora.Repositories.Productos;
 
 namespace apivendora.Services.Productos
 {
     public class LaboratorioService
     {
-        private readonly AppDbContext _context;
+        private readonly ILaboratorioRepository _laboratorioRepository;
 
-        public LaboratorioService(AppDbContext context)
+        public LaboratorioService(ILaboratorioRepository laboratorioRepository)
         {
-            _context = context;
+            _laboratorioRepository = laboratorioRepository;
         }
 
-        public async Task<List<Laboratorio>> GetAllAsync()
+        public Task<List<Laboratorio>> GetAllAsync()
         {
-            return await _context.Laboratorios.AsNoTracking().ToListAsync();
+            return _laboratorioRepository.GetAllAsync();
         }
 
-        public async Task<Laboratorio?> GetByIdAsync(int id)
+        public Task<Laboratorio?> GetByIdAsync(int cdgoLaboratorio)
         {
-            return await _context.Laboratorios.FindAsync(id);
+            return _laboratorioRepository.GetByIdAsync(cdgoLaboratorio);
         }
 
-        public async Task AddAsync(Laboratorio laboratorio)
+        public Task AddAsync(Laboratorio laboratorio)
         {
-            _context.Laboratorios.Add(laboratorio);
-            await _context.SaveChangesAsync();
+            return _laboratorioRepository.AddAsync(laboratorio);
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public Task<bool> DeleteAsync(int cdgoLaboratorio)
         {
-            var laboratorio = await _context.Laboratorios.FindAsync(id);
-            if (laboratorio == null) return false;
+            return _laboratorioRepository.DeleteAsync(cdgoLaboratorio);
+        }
 
-            _context.Laboratorios.Remove(laboratorio);
-            await _context.SaveChangesAsync();
-            return true;
+        public Task<bool> ExistsAsync(int cdgoLaboratorio)
+        {
+            return _laboratorioRepository.ExistsAsync(cdgoLaboratorio);
         }
     }
 }
