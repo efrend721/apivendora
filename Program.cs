@@ -1,6 +1,13 @@
 using apivendora.Data;
-using apivendora.Services;
 using Microsoft.EntityFrameworkCore;
+using apivendora.Services.Inventario;
+using apivendora.Services.Ventas;
+using apivendora.Services.Productos;
+using apivendora.Services.Usuarios;
+using apivendora.Services.Finanzas;
+
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
