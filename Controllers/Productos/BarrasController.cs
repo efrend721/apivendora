@@ -35,6 +35,17 @@ namespace apivendora.Controllers.Productos
 
             return Ok(result);
         }
+        
+        [HttpGet("por-producto/{cdgoProducto}")]
+        public async Task<ActionResult<IEnumerable<Barras>>> GetByProducto(int cdgoProducto)
+        {
+            var barras = await _barrasService.GetByProductoAsync(cdgoProducto);
+            if (barras == null || barras.Count == 0)
+            {
+                return NotFound(ApiProblemHelper.NotFound(HttpContext, $"No hay códigos de barra para el producto {cdgoProducto}."));
+            }
+            return Ok(barras);
+        }
 
         [HttpPost]
         public async Task<ActionResult> Create(Barras barra)
@@ -60,5 +71,17 @@ namespace apivendora.Controllers.Productos
 
             return NoContent();
         }
+
+        [HttpDelete("por-producto/{cdgoProducto}")]
+        public async Task<ActionResult> DeleteByProducto(int cdgoProducto)
+        {
+            var eliminados = await _barrasService.DeleteByProductoAsync(cdgoProducto);
+            if (!eliminados)
+            {
+                return NotFound(ApiProblemHelper.NotFound(HttpContext, $"No se encontraron códigos de barra para eliminar del producto {cdgoProducto}."));
+            }
+            return NoContent();
+        }
+
     }
 }

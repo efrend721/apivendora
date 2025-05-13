@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("apivendora")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e8b06a2f4a9939be1295235f88e8f26b1d1f3c60")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+67619706353de006062af61260528f323ca1b61a")]
 [assembly: System.Reflection.AssemblyProductAttribute("apivendora")]
 [assembly: System.Reflection.AssemblyTitleAttribute("apivendora")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

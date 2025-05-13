@@ -36,5 +36,10 @@ namespace apivendora.Services.Productos
         {
             return _barrasRepository.DeleteAsync(cdgoBarra);
         }
+
+        public Task<bool> DeleteByProductoAsync(int cdgoProducto)
+        {
+            return _barrasRepository.DeleteByProductoAsync(cdgoProducto);
+        }
     }
 }

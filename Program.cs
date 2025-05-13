@@ -6,6 +6,10 @@ using apivendora.Services.Productos;
 using apivendora.Services.Usuarios;
 using apivendora.Services.Finanzas;
 using apivendora.Repositories.Productos;
+using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using System.Security.Cryptography.X509Certificates;
+
 
 
 
@@ -57,6 +61,20 @@ builder.Services.AddControllers()
     options.JsonSerializerOptions.PropertyNamingPolicy = null; // Para mantener el formato original de las propiedades
 });
 
+//Escuchasr en puertos 5259 y 5260
+// Habilitar HTTPS en el puerto 5260
+// Habilitar HTTP en el puerto 5259
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5259); // HTTP normal
+
+    var cert = new X509Certificate2("/etc/ssl/apivendora/apivendora.pfx", "1234");
+
+    options.ListenAnyIP(5260, listenOptions =>
+    {
+        listenOptions.UseHttps(cert);
+    });
+});
 
 
 var app = builder.Build();

@@ -9,5 +9,6 @@ namespace apivendora.Repositories.Productos
         Task AddAsync(Barras barra);
         Task<bool> DeleteAsync(string cdgoBarra);
         Task<List<Barras>> GetByProductoAsync(int cdgoProducto);
+        Task<bool> DeleteByProductoAsync(int cdgoProducto);
     }
 }

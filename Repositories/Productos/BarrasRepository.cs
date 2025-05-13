@@ -43,6 +43,19 @@ namespace apivendora.Repositories.Productos
             await _context.SaveChangesAsync();
             return true;
         }
+        public async Task<bool> DeleteByProductoAsync(int cdgoProducto)
+        {
+            var barras = await _context.Barras
+                .Where(b => b.CdgoProducto == cdgoProducto)
+                .ToListAsync();
+
+            if (barras.Count == 0)
+                return false;
+
+            _context.Barras.RemoveRange(barras);
+            await _context.SaveChangesAsync();
+            return true;
+        }
 
         public async Task<List<Barras>> GetByProductoAsync(int cdgoProducto)
         {
